@@ -3,4 +3,5 @@
 
 import handlers
 
-_routes = [('/', handlers.MainHandler), ('/test', handlers.TestHandler)]
+_routes = [('/', handlers.MainHandler), ('/test',
+           handlers.TestHandler), ('/user', handlers.UserHandler)]

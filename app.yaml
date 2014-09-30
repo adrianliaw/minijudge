@@ -1,4 +1,4 @@
-application: judge
+application: twcljudge
 version: 1
 runtime: python27
 threadsafe: true

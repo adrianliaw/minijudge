@@ -2,14 +2,40 @@
 
 
 
+
+<div class="navbar navbar-default">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">MiniJudge</a>
+        </div>
+        <div class="navbar-collapse collapse navbar-responsive-collapse">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="/minijudge">驗證頁面</a>
+                </li>
+            </ul>
+
+            <!--
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">Link</a>
+                </li>
+
+            </ul>
+-->
+        </div>
+    </div>
+
+</div>
 <div class="container">
     <div class="row">
         <div class="span6 offset3">
             <!--Everything else here-->
             {% block content %}{% endblock %}
         </div>
-
     </div>
 </div>
-
 {% endblock %}

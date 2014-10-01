@@ -99,7 +99,7 @@ class MiniJudge(BaseHandler):
                     print 'This user is not yet in db, storing now'
                     new_u = User.register(uid=uid,
                             name=user.nickname(), site=url,
-                            is_sucess=True)
+                            is_success=True)
                     new_u.put()
                     self.redirect('/')
 
@@ -109,7 +109,7 @@ class User(ndb.Model):
     uid = ndb.StringProperty(required=True)
     name = ndb.StringProperty()
     site = ndb.StringProperty()
-    is_sucess = ndb.BooleanProperty()
+    is_success = ndb.BooleanProperty()
     created = ndb.DateTimeProperty(auto_now_add=True)
 
     @classmethod
@@ -128,10 +128,11 @@ class User(ndb.Model):
         uid,
         name='',
         site='',
-        is_sucess=False,
+        is_success=False,
         ):
 
-        return User(uid=uid, name=name, site=site, is_sucess=is_sucess)
+        return User(uid=uid, name=name, site=site,
+                    is_success=is_success)
 
         @classmethod
     def query_all(cls):

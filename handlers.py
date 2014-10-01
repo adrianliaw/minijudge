@@ -133,6 +133,10 @@ class User(ndb.Model):
 
         return User(uid=uid, name=name, site=site, is_sucess=is_sucess)
 
+        @classmethod
+    def query_all(cls):
+        return cls.query().order(-cls.created)
+
 
 #
 #    @classmethod

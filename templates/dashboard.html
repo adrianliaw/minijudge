@@ -1,0 +1,20 @@
+{% extends "layout.html" %} {% block content %}
+
+<div class="jumbotron">
+    <h1>MiniJudge</h1>
+    <p>MiniJudge想要山寨CS253的作業檢查程式，幫你檢查CS253的作業是否完成。目前MiniJudge僅檢查你的gae是否佈署成功，請前往登錄自己的app engine網址謝謝！</p>
+    <p><a class="btn btn-primary btn-lg" href="/minijudge">我要登錄</a>
+    </p>
+</div>
+
+<h1>大家的gae網址</h1>
+{% for user in users: %}
+<div class="panel panel-default">
+    <h2>{{user.name}}<small>{{user.created}}</small></h2>
+    <a href="{{user.site}}">{{user.site}}</a>
+    {% if user.is_success %}<span class="label label-success">驗證成功</span>
+    {% else %}<span class="label label-danger">驗證失敗</span> {% endif %}
+</div>
+
+
+{% endfor %} {% endblock %}

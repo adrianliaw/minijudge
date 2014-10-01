@@ -151,3 +151,11 @@ class User(ndb.Model):
 #
 #        self.login(u)
 #        self.redirect('/welcome')
+
+class DashBoard(BaseHandler):
+
+    def get(self):
+        users = User.query_all()
+        self.render('dashboard.html', users=users)
+
+

@@ -3,6 +3,6 @@
 
 import handlers
 
-_routes = [('/', handlers.MainHandler), ('/test',
-           handlers.TestHandler), ('/user', handlers.UserHandler),
-           ('/minijudge', handlers.MiniJudge)]
+_routes = [('/', handlers.DashBoard), ('/test', handlers.TestHandler),
+           ('/user', handlers.UserHandler), ('/minijudge',
+           handlers.MiniJudge)]

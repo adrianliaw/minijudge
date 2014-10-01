@@ -133,6 +133,10 @@ class User(ndb.Model):
 
         return User(uid=uid, name=name, site=site, is_sucess=is_sucess)
 
+        @classmethod
+    def query_all(cls):
+        return cls.query().order(-cls.created)
+
 
 #
 #    @classmethod
@@ -151,3 +155,11 @@ class User(ndb.Model):
 #
 #        self.login(u)
 #        self.redirect('/welcome')
+
+class DashBoard(BaseHandler):
+
+    def get(self):
+        users = User.query_all()
+        self.render('dashboard.html', users=users)
+
+

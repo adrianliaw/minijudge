@@ -6,7 +6,7 @@ from jinja2 import Environment, FileSystemLoader
 from google.appengine.api import users
 from google.appengine.ext import ndb
 from webapp2_extras.appengine.users import *
-import urllib2
+import urllib
 import cgi
 
 
@@ -58,7 +58,7 @@ class MiniJudge(BaseHandler):
     def post(self):
 
         success = False
-
+        url = ''
         url = self.request.get('inputURL')
 
         msg = ''
@@ -66,7 +66,7 @@ class MiniJudge(BaseHandler):
             url = cgi.escape(url)
             print url
             try:
-                u = urllib2.urlopen(url)
+                u = urllib.urlopen(url)
 
                 # see if 200 or 404
 
@@ -75,33 +75,46 @@ class MiniJudge(BaseHandler):
                     msg = 'Congrat! we ping %s successfully.' % url
                     success = True
                 elif code == 404:
-                    msg = 'Sorry, 404 girlfriend not found on %s.' % url
+                    msg = 'Sorry, 404 not found on %s.' % url
                 else:
                     msg = 'we encounter some tough situation.%s' % code
             except:
+
                 msg = 'we encounter some tough situation.'
         else:
             msg = 'no url input.'
+
+        self.updateUser(url, success, msg)
         self.render('minijudge.html', msg=msg, nickname=self.nickname())
 
         if success:
             print 'url ping success'
-            user = users.get_current_user()
-            if user:
-                uid = user.user_id()
-                q = ndb.gql('SELECT * FROM User WHERE uid = :1', uid)
-                u = q.get()
-                if u:
-                    print 'This user already stored in db, here it is %s' \
-                        % u
-                    self.redirect('/')
-                else:
-                    print 'This user is not yet in db, storing now'
-                    new_u = User.register(uid=uid,
-                            name=user.nickname(), site=url,
-                            is_success=True)
-                    new_u.put()
-                    self.redirect('/')
+            self.redirect('/')
+
+    def updateUser(
+        self,
+        url='',
+        is_success=False,
+        msg='',
+        ):
+
+        user = users.get_current_user()
+        if user:
+            uid = user.user_id()
+            q = ndb.gql('SELECT * FROM User WHERE uid = :1', uid)
+            u = q.get()
+            if u:
+                print 'This user already stored in db, here it is %s' \
+                    % u
+                u.site = url
+                u.is_success = is_success
+                u.msg = msg
+                u.put()
+            else:
+                print 'This user is not yet in db, storing now'
+                new_u = User.register(uid=uid, name=user.nickname(),
+                        site=url, is_success=is_success, msg=msg)
+                new_u.put()
 
 
 class User(ndb.Model):
@@ -110,6 +123,7 @@ class User(ndb.Model):
     name = ndb.StringProperty()
     site = ndb.StringProperty()
     is_success = ndb.BooleanProperty()
+    msg = ndb.StringProperty()
     created = ndb.DateTimeProperty(auto_now_add=True)
 
     @classmethod
@@ -129,10 +143,11 @@ class User(ndb.Model):
         name='',
         site='',
         is_success=False,
+        msg='',
         ):
 
         return User(uid=uid, name=name, site=site,
-                    is_success=is_success)
+                    is_success=is_success, msg=msg)
 
     @classmethod
     def query_all(cls):

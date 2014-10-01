@@ -57,7 +57,7 @@ class MiniJudge(BaseHandler):
 
     def post(self):
 
-        sucess = False
+        success = False
 
         url = self.request.get('inputURL')
 
@@ -72,8 +72,8 @@ class MiniJudge(BaseHandler):
 
                 code = u.getcode()
                 if code == 200:
-                    msg = 'Congrat! we ping %s sucessfully.' % url
-                    sucess = True
+                    msg = 'Congrat! we ping %s successfully.' % url
+                    success = True
                 elif code == 404:
                     msg = 'Sorry, 404 girlfriend not found on %s.' % url
                 else:
@@ -84,8 +84,8 @@ class MiniJudge(BaseHandler):
             msg = 'no url input.'
         self.render('minijudge.html', msg=msg, nickname=self.nickname())
 
-        if sucess:
-            print 'url ping sucess'
+        if success:
+            print 'url ping success'
             user = users.get_current_user()
             if user:
                 uid = user.user_id()
@@ -133,10 +133,6 @@ class User(ndb.Model):
 
         return User(uid=uid, name=name, site=site,
                     is_success=is_success)
-
-        @classmethod
-    def query_all(cls):
-        return cls.query().order(-cls.created)
 
     @classmethod
     def query_all(cls):

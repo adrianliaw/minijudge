@@ -76,7 +76,7 @@ class MiniJudge(BaseHandler):
                 msg = 'We encounter some tough situation.'
 
         elif url.netloc:
-            msg = "It seems like you didn't deploy on GAE, your URL should be like: \"foo.appspot.com\""
+            msg = "It seems like you didn't deploy on GAE, your URL should be like: \"http://foo.appspot.com\""
 
         elif not url.geturl():
             msg = 'No url input.'
